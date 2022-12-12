@@ -1,4 +1,4 @@
-name: Merge Pull Request
+name: Approval check
 on:
   pull_request_review:
     types: [submitted]
