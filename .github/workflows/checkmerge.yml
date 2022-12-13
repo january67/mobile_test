@@ -1,0 +1,51 @@
+name: Check if PR is approved and mergeable
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  check-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR is approved and mergeable
+        uses: actions/github-script@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            console.log(pr);
+            //
+            // Check if the PR has been approved
+            //if (pr.reviews?.length > 0 && pr.reviews.every(review => review.state === 'APPROVED')) {
+            //  console.log('PR has been approved');
+            //} else {
+            //  console.log('PR has not been approved');
+            //}
+            //
+            // Check if the PR is mergeable
+            const response = await github.repos.get({
+              owner: pr.base.repo.owner.login,
+              repo: pr.base.repo.name,
+              pull_number: pr.number
+            });
+
+            if (response.data.mergeable) {
+              console.log('PR is mergeable');
+            } else {
+              console.log('PR is not mergeable');
+            }
+
+            const response1 = await github.repos.get({
+              owner: pr.base.repo.owner.login,
+              repo: pr.base.repo.name,
+              pull_number: pr.number
+            });
+
+            if (response1.data.mergeable) {
+              console.log(response1.data.mergeable);
+              console.log('ROB PR is mergeable');
+            } else {
+              console.log('PR is not mergeable');
+            }
