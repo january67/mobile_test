@@ -17,7 +17,7 @@ jobs:
         with:
           script: |
             const pr = context.payload.pull_request;
-            //console.log(pr);
+            // console.log(pr);
             //
             // Check if the PR has been approved
             //if (pr.reviews?.length > 0 && pr.reviews.every(review => review.state === 'APPROVED')) {
@@ -44,7 +44,6 @@ jobs:
               repo: pr.base.repo.name,
               pull_number: pr.number
             });
-            console.log(------------- BOBBY --------------);
             console.log(response1);
             if (response1.data.mergeable) {
               console.log(response1.data.mergeable);
