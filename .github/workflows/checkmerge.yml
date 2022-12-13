@@ -9,15 +9,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # Check if the pull request is mergeable
+      - run: |
+          if [[ $(github-api mergeable ${{ github.event.pull_request.number }}) == "true" ]]; then
+            echo "Pull request is mergeable."
+          else
+            echo "Pull request is not mergeable."
 
-      # Add steps to build and test the code here
 
-      - name: Check mergeability
-        id: mergeability
-        uses: actions/get-mergeable@v2
-
-      - name: Print mergeability
-        run: |
-          echo "Pull request is ${{ steps.mergeability.outputs.is_mergeable }}"
