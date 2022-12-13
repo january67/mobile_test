@@ -16,7 +16,7 @@ jobs:
 
       - name: Check mergeability
         id: mergeability
-        uses: actions/get-mergeable@v1
+        uses: actions/get-mergeable@v2
 
       - name: Print mergeability
         run: |
