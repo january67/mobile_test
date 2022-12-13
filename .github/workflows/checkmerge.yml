@@ -17,7 +17,7 @@ jobs:
             const pr = context.payload.pull_request;
             console.log(pr);
             // Check if the PR has been approved
-            if (pr.reviews.length > 0 && pr.reviews.every(review => review.state === 'APPROVED')) {
+            if (pr.reviews?.length > 0 && pr.reviews.every(review => review.state === 'APPROVED')) {
               console.log('PR has been approved');
             } else {
               console.log('PR has not been approved');
