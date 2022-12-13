@@ -1,0 +1,23 @@
+name: Check Mergeability
+on:
+  pull_request:
+    branches:
+      - releases
+    types: [opened, synchronize]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Add steps to build and test the code here
+
+      - name: Check mergeability
+        id: mergeability
+        uses: actions/get-mergeable@v1
+
+      - name: Print mergeability
+        run: |
+          echo "Pull request is ${{ steps.mergeability.outputs.is_mergeable }}"
