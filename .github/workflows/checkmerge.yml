@@ -22,7 +22,7 @@ jobs:
             //} else {
             //  console.log('PR has not been approved');
             //}
-
+            //
             // Check if the PR is mergeable
             const response = await github.repos.get({
               owner: pr.base.repo.owner.login,
