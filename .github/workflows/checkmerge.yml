@@ -11,10 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR is approved and mergeable
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          retires: 3
+          result-encoding: string
           script: |
             const pr = context.payload.pull_request;
             // console.log(pr);
@@ -27,7 +29,7 @@ jobs:
             //}
             //
             // Check if the PR is mergeable
-            const response = await github.repos.get({
+            const response = await github.rest.repos.get({
               owner: pr.base.repo.owner.login,
               repo: pr.base.repo.name,
               pull_number: pr.number
@@ -41,7 +43,7 @@ jobs:
             console.log(response);
             
             async function greet() {
-              const response1 = await github.repos.get({
+              const response1 = await github.rest.repos.get({
               owner: pr.base.repo.owner.login,
               repo: pr.base.repo.name,
               pull_number: pr.number
@@ -56,5 +58,5 @@ jobs:
             }
             setTimeout(greet, 15000);
 
-            gh api \ -H "Accept: application/vnd.github+json" \ /repos/RobAndrsn/mobile_test/pulls/39
+            // gh api \ -H "Accept: application/vnd.github+json" \ /repos/RobAndrsn/mobile_test/pulls/39
             
