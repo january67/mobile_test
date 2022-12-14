@@ -55,4 +55,8 @@ jobs:
               }
             }
             setTimeout(greet, 15000);
+
+            gh api \
+            -H "Accept: application/vnd.github+json" \
+            /repos/RobAndrsn/mobile_test/pulls/39
             
