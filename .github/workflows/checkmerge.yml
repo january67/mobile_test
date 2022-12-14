@@ -39,15 +39,20 @@ jobs:
               console.log('PR is not mergeable');
             }
             console.log(response);
-            const response1 = await github.repos.get({
+            
+            function greet() {
+              const response1 = await github.repos.get({
               owner: pr.base.repo.owner.login,
               repo: pr.base.repo.name,
               pull_number: pr.number
-            });
-            console.log(response1);
-            if (response1.data.mergeable) {
-              console.log(response1.data.mergeable);
-              console.log('ROB PR is mergeable');
-            } else {
-              console.log('PR is not mergeable');
+              });
+              console.log(response1);
+              if (response1.data.mergeable) {
+                console.log(response1.data.mergeable);
+                console.log('ROB PR is mergeable');
+              } else {
+                console.log('PR is not mergeable');
+              }
             }
+            setTimeout(greet, 15000);
+            
