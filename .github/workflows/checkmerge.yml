@@ -15,7 +15,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          retires: 3
+          retries: 3
           result-encoding: string
           script: |
             const pr = context.payload.pull_request;
@@ -29,7 +29,7 @@ jobs:
             //}
             //
             // Check if the PR is mergeable
-            const response = await github.rest.repos.get({
+            const response = await github.rest.pulls.get({
               owner: pr.base.repo.owner.login,
               repo: pr.base.repo.name,
               pull_number: pr.number
