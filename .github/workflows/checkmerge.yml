@@ -40,7 +40,7 @@ jobs:
             }
             console.log(response);
             
-            function greet() {
+            async function greet() {
               const response1 = await github.repos.get({
               owner: pr.base.repo.owner.login,
               repo: pr.base.repo.name,
