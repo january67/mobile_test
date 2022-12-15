@@ -32,7 +32,8 @@ jobs:
               const merge = await github.rest.pulls.merge({
                 owner: pr.base.repo.owner.login,
                 repo: pr.base.repo.name,
-                pull_number: pr.number
+                pull_number: pr.number,
+                merge_method: merge
               });
               console.log('MERGED', merge);
             } else {
