@@ -27,10 +27,11 @@ jobs:
               pull_number: pr.number
             });
 
-            if (response.data.mergeable) {
-              console.log('PR is mergeable');
+            if ((response.data.mergeable) && !response.data.requested_teams.includes("change-review-board")) {
+              console.log('PR is mergeable and CRB is not listed');
             } else {
-              console.log('PR is not mergeable');
+              console.log('PR is not mergeable')
+              console.log('CRB IS LISTED ?', response.data.requested_teams.includes("change-review-board"));
             }
             console.log(response);
             
