@@ -13,9 +13,8 @@ jobs:
     steps:
       - name: Check if PR is approved and mergeable
         uses: actions/github-script@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           retries: 3
           result-encoding: string
           script: |
