@@ -19,7 +19,36 @@ jobs:
           result-encoding: string
           script: |
             const pr = context.payload.pull_request;
+            try {
+              const reviewsResponse = await github.rest.pulls.listReviews({
+                owner: pr.base.repo.owner.login,
+                repo: pr.base.repo.name,
+                pull_number: pr.number
+              });
+              const reviews = reviewsResponse.data;
+
+              const teamResponse = await github.rest.teams.listMembersInOrg({
+                org: 'january67',
+                team_slug: 'change-review-board',
+              });
+              const teamMembers = teamResponse.data;
+              
+              let approvedByCrb = false;
+              for (const review of reviews){
+                if(review.state === 'APPROVED'){
+                  const user = review.user.login;
+                  if (teamMembers.find((member) => member.login === user)) {
+                  console.log(`${user} is a member of the "change-review-board" team`);
+                  approvedByCrb = true;
+                  }
+                }
+              }
+              
+              if(!approvedByCrb){
+                core.setFailed("No members of CRB approved the pull request");
+              }
             
+            }
             const response = await github.rest.pulls.get({
               owner: pr.base.repo.owner.login,
               repo: pr.base.repo.name,
