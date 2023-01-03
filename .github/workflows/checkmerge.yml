@@ -54,27 +54,7 @@ jobs:
               repo: pr.base.repo.name,
               pull_number: pr.number
             });
-            const reviewsResponse = await github.rest.pulls.listReviews({
-              owner: pr.base.repo.owner.login,
-              repo: pr.base.repo.name,
-              pull_number: pr.number
-            });
-            const reviews = reviewsResponse.data;
-            
-            const teamResponse = await github.rest.teams.listMembersInOrg({
-              org: 'january67',
-              team_slug: 'change-review-board',
-            });
-            const teamMembers = teamResponse.data;
-            
-            for (const review of reviews){
-              if(review.state === 'APPROVED'){
-                const user = review.user.login;
-                if (teamMembers.find((member) => member.login === user)) {
-                console.log(`${user} is a member of the "change-review-board" team`);
-                }
-              }
-            }
+           
             console.log(reviews);
             console.log(response.data.requested_teams);
             console.log('IS SLUG CRB?', response.data.requested_teams.slug == 'change-review-board');
