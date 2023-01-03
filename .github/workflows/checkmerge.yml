@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR is approved and mergeable
+        id: pr-check
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
@@ -46,11 +47,12 @@ jobs:
             if(!approvedByCrb){
               core.setFailed("No members of CRB approved the pull request");
             }
+            return approvedByCrb;
             
-            outputs:
-              approvedByCrb: ${{ approvedByCrb }}
+            
+              
       - name: Merge pull request
-        if: ${{ outputs.approvedByCrb }}
+        if: ${{ steps.check-pr.outputs.result }}
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
