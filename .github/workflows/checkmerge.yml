@@ -33,7 +33,7 @@ jobs:
             const reviews = reviewsResponse.data;
             
             const teamResponse = await github.rest.teams.listMembersInOrg({
-              org: january67,
+              org: 'january67',
               team_slug: 'change-review-board',
             });
             const teamMembers = teamResponse.data;
