@@ -52,7 +52,7 @@ jobs:
             
               
       - name: Merge pull request
-        if: steps.check-pr.outputs.result == 'true'
+        if: steps.build.outcome == 'success'
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
