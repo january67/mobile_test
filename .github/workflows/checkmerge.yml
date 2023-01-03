@@ -47,46 +47,20 @@ jobs:
             if(!approvedByCrb){
               core.setFailed("No members of CRB approved the pull request");
             }
-            
-            
-            const response = await github.rest.pulls.get({
+      - name: Merge pull request
+        if: ${{ approvedByCrb }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const merge = await github.rest.pulls.merge({
               owner: pr.base.repo.owner.login,
               repo: pr.base.repo.name,
-              pull_number: pr.number
+              pull_number: pr.number,
             });
-           
-            console.log(reviews);
-            console.log(response.data.requested_teams);
-            console.log('IS SLUG CRB?', response.data.requested_teams.slug == 'change-review-board');
-            console.log('OBJ?', response.data.requested_teams?.slug == 'change-review-board');
-            //for (const team of response.data?.requested_teams){
-            //  if (team.slug.includes("change-review-board")){
-            //    console.log("CRB IS FOUND, REVIEW NOT COMPLETED");
-            //  }
-            //}
-            if (response.data?.requested_teams.length === 0) {
-              console.log("The requested_teams array is empty");
-            } else {
-              for (const team of response.data?.requested_teams) {
-                if (team.slug.includes("change-review-board")) {
-                  console.log("CRB IS FOUND, REVIEW NOT COMPLETED");
-                }
-              }
-            }
+            console.log('MERGED', merge);
 
-            //if ((response.data.mergeable) && !response.data.requested_teams.slug == 'change-review-board')) {
-            //  console.log('PR is mergeable and CRB is not listed');
-            //  const merge = await github.rest.pulls.merge({
-            //    owner: pr.base.repo.owner.login,
-            //    repo: pr.base.repo.name,
-            //    pull_number: pr.number
-            //  });
-            //  console.log('MERGED', merge);
-            //} else {
-            //  console.log('PR is not mergeable')
-            //  console.log('CRB IS LISTED ?', response.data.requested_teams.includes("change-review-board"));
-            //}
-            console.log(response);
             
             
-            
+           
