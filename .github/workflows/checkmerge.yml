@@ -32,8 +32,9 @@ jobs:
             });
             const reviews = reviewsResponse.data;
             
-            const teamResponse = await github.rest.teams.listMembers({
-              team_id: 7140016,
+            const teamResponse = await github.rest.teams.listMembersInOrg({
+              org: january67,
+              team_slug: 'change-review-board',
             });
             const teamMembers = teamResponse.data;
             
