@@ -28,11 +28,21 @@ jobs:
             console.log(response.data.requested_teams);
             console.log('IS SLUG CRB?', response.data.requested_teams.slug == 'change-review-board');
             console.log('OBJ?', response.data.requested_teams?.slug == 'change-review-board');
-            for (const team of response.data?.requested_teams){
-              if (team.slug.includes("change-review-board")){
-                console.log("CRB IS FOUND, REVIEW NOT COMPLETED");
+            //for (const team of response.data?.requested_teams){
+            //  if (team.slug.includes("change-review-board")){
+            //    console.log("CRB IS FOUND, REVIEW NOT COMPLETED");
+            //  }
+            //}
+            if (response.data?.requested_teams.length === 0) {
+              console.log("The requested_teams array is empty");
+            } else {
+              for (const team of response.data?.requested_teams) {
+                if (team.slug.includes("change-review-board")) {
+                  console.log("CRB IS FOUND, REVIEW NOT COMPLETED");
+                }
               }
             }
+
             //if ((response.data.mergeable) && !response.data.requested_teams.slug == 'change-review-board')) {
             //  console.log('PR is mergeable and CRB is not listed');
             //  const merge = await github.rest.pulls.merge({
