@@ -21,12 +21,10 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  create-rc-release:
+  create_rc_release:
     jobs:
-        - create-rc
-      triggers:
-        - event:
-            type: push
+      - create-rc:
+          filters:
             branches:
               only:
                 - releases
