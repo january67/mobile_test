@@ -71,9 +71,10 @@ jobs:
             
       - name: Trigger CircleCI Release
         run: |
+          echo ${{ github.event.pull_request.number }}
           curl --location --request POST 'https://circleci.com/api/v2/project/github/january67/mobile-release-automation/pipeline' \
             --header 'Content-Type: application/json' \
-            --data '{"branch":"main","parameters":{"cut_rc_release":true, "pr_number": ${{ github.event.pull_request.number }}}}' \
+            --data '{"branch":"main","parameters":{"merge_rc_release":true, "pr_number": ${{ github.event.pull_request.number }}}}' \
             -u "${CIRCLE_TOKEN}:"
             
             
