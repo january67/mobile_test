@@ -33,7 +33,7 @@ jobs:
             
             let approvedByCrb = false;
             approvedByCrb = reviews.some(review => crbMembers.some(member => member.login === review.user.login));
-            
+            console.log(approvedByCrb);
             if(!approvedByCrb){
               core.setFailed("No members of CRB approved the pull request");
             }
