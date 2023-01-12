@@ -33,7 +33,6 @@ jobs:
             
             let approvedByCrb = false;
             approvedByCrb = reviews.some(review => crbMembers.some(member => member.login === review.user.login));
-            console.log(approvedByCrb);
             return approvedByCrb;
             
             
