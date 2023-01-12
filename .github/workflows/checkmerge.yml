@@ -8,7 +8,7 @@ on:
 
 jobs:
   check-pr:
-    if: github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'releases'
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR is approved and mergeable
@@ -20,29 +20,19 @@ jobs:
           script: |
             const pr = context.payload.pull_request;
           
-            const reviewsResponse = await github.rest.pulls.listReviews({
+            const { data: reviews } = await github.rest.pulls.listReviews({
               owner: pr.base.repo.owner.login,
               repo: pr.base.repo.name,
               pull_number: pr.number
             });
-            const reviews = reviewsResponse.data;
 
-            const teamResponse = await github.rest.teams.listMembersInOrg({
+            const { data: crbMembers } = await github.rest.teams.listMembersInOrg({
               org: 'january67',
               team_slug: 'change-review-board',
             });
-            const teamMembers = teamResponse.data;
-              
+            
             let approvedByCrb = false;
-            for (const review of reviews){
-              if(review.state === 'APPROVED'){
-                const user = review.user.login;
-                if (teamMembers.find((member) => member.login === user)) {
-                console.log(`${user} is a member of the "change-review-board" team`);
-                approvedByCrb = true;
-                }
-              }
-            }
+            approvedByCrb = reviews.some(review => teamMembers.some(member => member.login === review.user.login)
             
             if(!approvedByCrb){
               core.setFailed("No members of CRB approved the pull request");
