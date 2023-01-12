@@ -8,7 +8,7 @@ on:
 
 jobs:
   check-pr:
-    if: github.event.review.state == 'approved'
+    if: github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'releases'
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR is approved and mergeable
@@ -16,7 +16,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          result-encoding: string
           script: |
             const pr = context.payload.pull_request;
           
@@ -31,8 +30,7 @@ jobs:
               team_slug: 'change-review-board',
             });
             
-            let approvedByCrb = false;
-            approvedByCrb = reviews.some(review => crbMembers.some(member => member.login === review.user.login));
+            const approvedByCrb = reviews.some(review => crbMembers.some(member => member.login === review.user.login));
             return approvedByCrb;
             
             
@@ -65,7 +63,7 @@ jobs:
         
             
       - name: Trigger CircleCI Release
-        if: ${{ steps.crb-approval.outputs.result  == 'true' }}
+        if: ${{ steps.crb-approval.outputs.result }}
         run: |
           curl --request POST \
              --url https://circleci.com/api/v2/project/github/january67/mobile-release-automation/pipeline \
