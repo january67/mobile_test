@@ -66,6 +66,7 @@ jobs:
         
             
       - name: Trigger CircleCI Release
+        if: ${{steps.crb-approval.outputs.result}}
         run: |
           echo ${{ github.event.pull_request.number }}
           echo "${{steps.crb-approval.outputs.result}}"
