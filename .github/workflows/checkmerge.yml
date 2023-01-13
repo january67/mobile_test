@@ -31,7 +31,7 @@ jobs:
             });
             
             const approvedByCrb = reviews.some(review => crbMembers.some(member => member.login === review.user.login));
-            return approvedByCrb;
+            return { result: approvedByCrb };
             
             
               
