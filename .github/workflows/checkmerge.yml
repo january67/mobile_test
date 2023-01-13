@@ -65,7 +65,7 @@ jobs:
       - name: Trigger CircleCI Release
         if: ${{ fromJSON(steps.crb-approval.outputs.result)}}
         run: |
-          echo ${{ fromJSON(steps.crb-approval.outputs.result) }}
+          echo ${{ fromJSON(steps.crb-approval.outputs.result.crbApproved) }}
           
             
             
