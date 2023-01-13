@@ -31,7 +31,7 @@ jobs:
             });
             
             const approvedByCrb = reviews.some(review => crbMembers.some(member => member.login === review.user.login));
-            return { result: approvedByCrb };
+            return { approved: approvedByCrb };
             
             
               
@@ -65,7 +65,7 @@ jobs:
       - name: Trigger CircleCI Release
         if: ${{ steps.crb-approval.outputs.result }}
         run: |
-          echo ${{ steps.crb-approval.outputs.result }}
+          echo ${{ steps.crb-approval.outputs.result.approved }}
           
             
             
